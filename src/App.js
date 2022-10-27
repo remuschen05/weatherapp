@@ -1,22 +1,20 @@
 import './App.css';
+import Home from './pages/Home';
+import Navbar from './components/layout/Navbar';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { OpenWeatherMapProvider } from './context/openweathermap/OpenWeatherMapContext';
+import WeatherResults from './components/weather/WeatherResults';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="flex flex-col h-screen">
+        <Navbar />
+        <main className="container mx-auto py-12 px-2">
+          <WeatherResults />
+        </main>
+      </div>
+    </Router>
   );
 }
 
