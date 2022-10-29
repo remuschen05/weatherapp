@@ -4,17 +4,21 @@ import Navbar from './components/layout/Navbar';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { OpenWeatherMapProvider } from './context/openweathermap/OpenWeatherMapContext';
 import WeatherResults from './components/weather/WeatherResults';
+import WeatherSearch from './components/weather/WeatherSearch';
 
 function App() {
   return (
-    <Router>
-      <div className="flex flex-col h-screen">
-        <Navbar />
-        <main className="container mx-auto py-12 px-2">
-          <WeatherResults />
-        </main>
-      </div>
-    </Router>
+    <OpenWeatherMapProvider>
+      <Router>
+        <div className="flex flex-col h-screen">
+          <Navbar />
+          <main className="container mx-auto py-12 px-2">
+            <WeatherSearch/>
+            <WeatherResults />
+          </main>
+        </div>
+      </Router>
+    </OpenWeatherMapProvider>
   );
 }
 
