@@ -3,16 +3,20 @@ import OpenWeatherMapContext from '../../context/openweathermap/OpenWeatherMapCo
 import WeatherResults from './WeatherResults'
 
 function WeatherSearch() {
-    const [text, setText] = useState(); 
-    const { weather } = useContext(OpenWeatherMapContext); 
+    const [text, setText] = useState(''); 
+    const { weather, fetchWeather } = useContext(OpenWeatherMapContext); 
 
     const handleChange = (e) => setText(e.target.value); 
     const handleSubmit = (e) => {
         e.preventDefault(); 
-        if (text === '') { 
-            alert('Please enter a location'); 
+        const regEx = /([A-Za-z]+(?: [A-Za-z]+)*),? ([A-Za-z]{2})/
+        const validation = regEx.exec(text); 
+        console.log(validation); 
+        if (!validation || text  === '') { 
+            alert('Please enter a location in the "City, State" Format. EX: Randolph, MA'); 
         } else { 
             //@todo, search users 
+            fetchWeather(validation[1], validation[2]);
             setText(''); 
         }
     }
@@ -21,13 +25,16 @@ function WeatherSearch() {
     <div className='grid grid-cols-2 mb-8 gap-8'>
         <div>
             <form onSubmit={handleSubmit}>
-                <h2>Enter a Location</h2>
-                <input type="text" placeholder='search' />
+                <div>
+                    <div className='relative'>
+                        <input type="text" value={text} onChange={handleChange} className='w-full pr-40 text-black' placeholder='Enter a Location'/>
+                        <button type='submit' className='absolute top-0 right-0 rounded-l-none w-36'>
+                            Go
+                        </button>
+
+                    </div>
+                </div>
             </form>
-            <button>test</button>
-        </div>
-        <div>
-            <button className='btn btn-ghost btn-large'></button>
         </div>
     </div>
   )

@@ -16,22 +16,35 @@ export const OpenWeatherMapProvider = ({ children }) => {
 
   /* Fetch the longitude and Latitude from the GeoCoding API on Open Weather Map to get Longitude and Latitude coordinate parameters
   for One Call API */
-  const fetchLatAndLong = async () => {
+  const fetchLatAndLong = async (city, state) => {
+    const params = new URLSearchParams({ 
+      q: `${city},${state},US`,
+      limit: 10,
+      appID: API_TOKEN 
+    })
     const response = await fetch(
-      `${API_URL}/geo/1.0/direct?q=Randolph,MA,US&limit=10&appid=${API_TOKEN}`
+      `${API_URL}/geo/1.0/direct?${params}`
     );
     const data = await response.json();
     return data;
   };
   /* Main GET Request that obtains weather data for a specific location. */
-  const fetchWeather = async () => {
+  const fetchWeather = async (city, state) => {
     setLoading(); 
-    const getLongAndLat = await fetchLatAndLong();
-    const lon = getLongAndLat[0].lon;
-    const lat = getLongAndLat[0].lat;
+    const getLongAndLat = await fetchLatAndLong(city, state);
+    const longitude = getLongAndLat[0].lon;
+    const latitude = getLongAndLat[0].lat;
+    console.log(longitude, latitude);
+    const params = new URLSearchParams({ 
+      lat: latitude, 
+      lon: longitude, 
+      units: 'imperial',
+      appid: API_TOKEN,
+    })
     const response = await fetch(
-      `${API_URL}/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&cnt=7&appid=${API_TOKEN}`
+      `${API_URL}/data/2.5/forecast?${params}`
     );
+    console.log(response); 
     const data = await response.json();
     dispatch({
       type: 'GET_WEATHER', 
