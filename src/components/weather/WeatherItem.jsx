@@ -36,7 +36,7 @@ function WeatherItem({ weather }) {
       <div className="py-4 px-2">
         <div className="flex justify-between content-center">
           <div>
-            <p className="text-lg font-semibold leading-none tracking-wide m-0 whitespace-nowrap">
+            <p className="text-lg font-semibold leading-none tracking-wide m-0 whitespace-nowrap md:text-base">
               {`${unixTimeConverter(weather.dt).formattedDate}`}
             </p>
             <p className="font-light text-sm">Randolph, MA</p>

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { OpenWeatherMapProvider } from './context/openweathermap/OpenWeatherMapContext';
 import WeatherResults from './components/weather/WeatherResults';
 import WeatherSearch from './components/weather/WeatherSearch';
+import ClassWeatherSearch from './components/weather/ClassWeatherSearch';
 
 function App() {
   return (
@@ -13,16 +14,11 @@ function App() {
         <div className="flex flex-col h-screen">
           <Navbar />
           <main className="container mx-auto py-12 px-2">
-            <WeatherSearch />
-            <WeatherResults />
-          </main>
-          <main className="container mx-auto py-12 px-2">
-            <WeatherSearch />
-            <WeatherResults />
-          </main>
-          <main className="container mx-auto py-12 px-2">
-            <WeatherSearch />
-            <WeatherResults />
+            <div className=''>
+            <ClassWeatherSearch/>
+            <ClassWeatherSearch/>
+            <ClassWeatherSearch/>
+            </div>
           </main>
         </div>
       </Router>

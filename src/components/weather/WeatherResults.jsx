@@ -1,14 +1,47 @@
-import React from 'react';
+import {useEffect, useState} from 'react';
 import WeatherItem from './WeatherItem';
-import { useEffect, useContext } from 'react';
-import OpenWeatherMapContext from '../../context/openweathermap/OpenWeatherMapContext';
 
-function WeatherResults() {
-  const { weather, loading, fetchWeather } = useContext(OpenWeatherMapContext);
+
+function WeatherResults({city, state}) {
+  const [weather, setWeather] = useState([]);
+  const [loading, setLoading] = useState(true); 
+  const API_TOKEN = process.env.REACT_APP_OPENWEATHER_TOKEN;
+  const API_URL = process.env.REACT_APP_OPENWEATHER_URL;
 
   useEffect(() => {
-    fetchWeather();
+    fetchWeather(city, state);
   }, []);
+
+  const fetchLatAndLong = async (city, state) => {
+    const params = new URLSearchParams({
+      q: `${city},${state},US`,
+      limit: 10,
+      appID: API_TOKEN,
+    });
+    const response = await fetch(`${API_URL}/geo/1.0/direct?${params}`);
+    const data = await response.json();
+    return data;
+  };
+  /* Main GET Request that obtains weather data for a specific location. */
+  const fetchWeather = async (city, state) => {
+    setLoading(true);
+    const getLongAndLat = await fetchLatAndLong(city, state);
+    const longitude = getLongAndLat[0].lon;
+    const latitude = getLongAndLat[0].lat;
+    const params = new URLSearchParams({
+      lat: latitude,
+      lon: longitude,
+      units: 'imperial',
+      cnt: 7,
+      appid: API_TOKEN,
+    });
+    const response = await fetch(`${API_URL}/data/2.5/forecast?${params}`);
+    const data = await response.json();
+    console.log(data);
+    setWeather(data); 
+    setLoading(false); 
+  };
+
 
   if (!loading) {
     return (
@@ -19,7 +52,13 @@ function WeatherResults() {
       </div>
     );
   } else {
-    return <h1>Loading...</h1>;
+    return (
+      <div>
+        <h1>{city},{state}</h1>
+        <p>Loading...</p>
+      </div>
+    );
+    
   }
 }
 

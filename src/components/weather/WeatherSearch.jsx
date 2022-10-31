@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, ReactDOM } from 'react';
 import OpenWeatherMapContext from '../../context/openweathermap/OpenWeatherMapContext';
 import WeatherResults from './WeatherResults';
 
@@ -18,7 +18,7 @@ function WeatherSearch() {
       );
     } else {
       //@todo, search users
-      fetchWeather(validation[1], validation[2]);
+      weather = fetchWeather(validation[1], validation[2]);
       setText('');
     }
   };
@@ -45,6 +45,8 @@ function WeatherSearch() {
             </div>
           </div>
         </form>
+      </div>
+      <div>
       </div>
     </div>
   );
