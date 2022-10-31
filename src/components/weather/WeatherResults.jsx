@@ -4,7 +4,7 @@ import { useEffect, useContext } from 'react';
 import OpenWeatherMapContext from '../../context/openweathermap/OpenWeatherMapContext';
 
 function WeatherResults() {
-  const {weather, loading, fetchWeather} = useContext(OpenWeatherMapContext); 
+  const { weather, loading, fetchWeather } = useContext(OpenWeatherMapContext);
 
   useEffect(() => {
     fetchWeather();
@@ -12,7 +12,7 @@ function WeatherResults() {
 
   if (!loading) {
     return (
-      <div>
+      <div className="grid grid-cols-7 gap-4">
         {weather.list.map((listItem) => (
           <WeatherItem key={listItem.dt} weather={listItem} />
         ))}
