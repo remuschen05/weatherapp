@@ -13,6 +13,8 @@ class ClassWeatherSearch extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  //Event Handler Methods
   handleChange = (e) => {
     console.log(e.target.value);
     this.setState({ text: e.target.value });
@@ -27,7 +29,7 @@ class ClassWeatherSearch extends Component {
         'Please enter a location in the "City, State" Format. EX: Randolph, MA'
       );
     } else {
-      //@todo, search users
+      //search users
       this.setState({
         text: '',
         city: validation[1],
@@ -37,6 +39,7 @@ class ClassWeatherSearch extends Component {
       console.log(this.state);
     }
   };
+  /////////////////////////////////////////////////
   render() {
     return (
       <div className="border-black border-4 rounded px-2 py-4">

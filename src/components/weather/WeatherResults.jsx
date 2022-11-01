@@ -3,6 +3,7 @@ import WeatherItem from './WeatherItem';
 
 function WeatherResults({ city, state }) {
   const [weather, setWeather] = useState([]);
+  const [historicalData, setHistoricalData] = useState([]);
   const [loading, setLoading] = useState(true);
   const API_TOKEN = process.env.REACT_APP_OPENWEATHER_TOKEN;
   const API_URL = process.env.REACT_APP_OPENWEATHER_URL;
@@ -10,7 +11,12 @@ function WeatherResults({ city, state }) {
   useEffect(() => {
     fetchWeather(city, state);
   }, []);
-
+  useEffect(() => {
+    fetchHistoricalWeather(city, state);
+  }, []);
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Open Weather Map API Requests
+  //Get longitude and Latitude Parameters from Openweathermap Geocoding API
   const fetchLatAndLong = async (city, state) => {
     const params = new URLSearchParams({
       q: `${city},${state},US`,
@@ -36,11 +42,50 @@ function WeatherResults({ city, state }) {
     });
     const response = await fetch(`${API_URL}/data/2.5/forecast?${params}`);
     const data = await response.json();
-    console.log(data);
     setWeather(data);
     setLoading(false);
   };
 
+  const fetchHistoricalWeather = async (city, state) => {
+    const getLongAndLat = await fetchLatAndLong(city, state);
+    const longitude = getLongAndLat[0].lon;
+    const latitude = getLongAndLat[0].lat;
+    const params = new URLSearchParams({
+      lat: latitude,
+      lon: longitude,
+      units: 'imperial',
+      appid: API_TOKEN,
+    });
+    let data = [];
+    let dates = lastSevenUnix();
+    for (let i = 0; i < dates.length; i++) {
+      let dateParam = dates[i];
+      const response = await fetch(
+        `${API_URL}/data/3.0/onecall/timemachine?dt=${dateParam}&${params}`
+      );
+      console.log(
+        `${API_URL}data/3.0/onecall/timemachine?dt=${dateParam}${params}`
+      );
+      const json = await response.json();
+      data.push(json);
+    }
+    console.log(`HISTORICAL DATA ${data}`);
+    setHistoricalData(data);
+    console.log(historicalData);
+    return data;
+  };
+  //Calculate the last 7 days in Unix Time for the Historical Open Weather Map API;
+  const lastSevenUnix = () => {
+    let lastSeven = [];
+    let d = Math.floor(Date.now() - 284014800);
+    for (let i = 0; i < 7; i++) {
+      d = d - 864e5;
+      lastSeven.push(d);
+    }
+    console.log(lastSeven);
+    return lastSeven;
+  };
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   if (!loading) {
     return (
       <div>
