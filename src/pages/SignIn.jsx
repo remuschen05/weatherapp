@@ -39,36 +39,42 @@ function SignIn() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col h-screen">
       <Navbar />
-      <h1>sign in</h1>
-      <form onSubmit={onSubmit}>
-        <input
-          type="email"
-          className="emailInput"
-          placeholder="Email"
-          id="email"
-          value={email}
-          onChange={onChange}
-        />
-        <div>
+      <main className="container mx-auto py-12 px-2">
+        <h1 className="text-2xl bold underline py-4">Sign In</h1>
+        <form onSubmit={onSubmit}>
           <input
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Password"
-            id="password"
-            value={password}
+            type="email"
+            className="border border-black border-solid rounded"
+            placeholder="Email"
+            id="email"
+            value={email}
             onChange={onChange}
           />
+          <div className="py-2">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              className="border border-black border-solid rounded"
+              placeholder="Password"
+              id="password"
+              value={password}
+              onChange={onChange}
+            />
 
-          <button onClick={() => setShowPassword((prevState) => !prevState)}>
-            Show Password
-          </button>
-        </div>
-        <div>
-          <button>Sign In</button>
-        </div>
-        <Link to="/sign-up">Sign Up</Link>
-      </form>
+            <button
+              className="px-2"
+              onClick={() => setShowPassword((prevState) => !prevState)}
+            >
+              Show Password
+            </button>
+          </div>
+          <div className="py-2">
+            <button>Sign In</button>
+          </div>
+          <Link to="/sign-up">Sign Up</Link>
+        </form>
+      </main>
     </div>
   );
 }
