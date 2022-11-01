@@ -33,7 +33,7 @@ function WeatherSearch() {
                 type="text"
                 value={text}
                 onChange={handleChange}
-                className="w-full pr-40 text-black"
+                className="border-8 border-solid w-1/2 pr-40 text-black"
                 placeholder="Enter a Location"
               />
               <button
@@ -46,8 +46,7 @@ function WeatherSearch() {
           </div>
         </form>
       </div>
-      <div>
-      </div>
+      <div></div>
     </div>
   );
 }

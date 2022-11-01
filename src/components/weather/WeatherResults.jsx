@@ -1,10 +1,9 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import WeatherItem from './WeatherItem';
 
-
-function WeatherResults({city, state}) {
+function WeatherResults({ city, state }) {
   const [weather, setWeather] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const API_TOKEN = process.env.REACT_APP_OPENWEATHER_TOKEN;
   const API_URL = process.env.REACT_APP_OPENWEATHER_URL;
 
@@ -38,27 +37,37 @@ function WeatherResults({city, state}) {
     const response = await fetch(`${API_URL}/data/2.5/forecast?${params}`);
     const data = await response.json();
     console.log(data);
-    setWeather(data); 
-    setLoading(false); 
+    setWeather(data);
+    setLoading(false);
   };
-
 
   if (!loading) {
     return (
-      <div className="grid grid-cols-7 gap-4">
-        {weather.list.map((listItem) => (
-          <WeatherItem key={listItem.dt} weather={listItem} />
-        ))}
+      <div>
+        <h1 className="pb-8 text-4xl bold">
+          {city}, {state}
+        </h1>
+        <div className="grid grid-cols-7 gap-4">
+          {weather.list.map((listItem) => (
+            <WeatherItem
+              key={listItem.dt}
+              weather={listItem}
+              city={city}
+              state={state}
+            />
+          ))}
+        </div>
       </div>
     );
   } else {
     return (
       <div>
-        <h1>{city},{state}</h1>
+        <h1>
+          {city},{state}
+        </h1>
         <p>Loading...</p>
       </div>
     );
-    
   }
 }
 

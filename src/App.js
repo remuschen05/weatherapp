@@ -1,28 +1,20 @@
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Navbar from './components/layout/Navbar';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { OpenWeatherMapProvider } from './context/openweathermap/OpenWeatherMapContext';
-import WeatherResults from './components/weather/WeatherResults';
-import WeatherSearch from './components/weather/WeatherSearch';
-import ClassWeatherSearch from './components/weather/ClassWeatherSearch';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   return (
-    <OpenWeatherMapProvider>
-      <Router>
-        <div className="flex flex-col h-screen">
-          <Navbar />
-          <main className="container mx-auto py-12 px-2">
-            <div className=''>
-            <ClassWeatherSearch/>
-            <ClassWeatherSearch/>
-            <ClassWeatherSearch/>
-            </div>
-          </main>
-        </div>
-      </Router>
-    </OpenWeatherMapProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { useState, useReducer } from 'react';
+import { useReducer } from 'react';
 import OpenWeatherMapReducer from './OpenWeatherMapReducer';
 
 const OpenWeatherMapContext = createContext();
